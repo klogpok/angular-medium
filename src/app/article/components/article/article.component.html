@@ -1,0 +1,61 @@
+<div class="article-page">
+  <div class="banner">
+    <div class="container" *ngIf="article">
+      <h1>{{ article.title }}</h1>
+      <div class="article-meta">
+        <a [routerLink]="['profile', article.author.username]"><img [src]="article.author.image" /></a>
+        <div class="info">
+          <a class="author" [routerLink]="['profile', article.author.username]">{{ article.author.username }}</a>
+          <span class="date">{{ article.createdAt | date : "MMMM d, h:mm" }}</span>
+        </div>
+        <span *ngIf="isAuthor$ | async">
+          <a class="btn btn-sm btn-outline-secondary" [routerLink]="['edit']">
+            <i class="ion-edit"></i> Edit Article
+          </a>
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteArticle()">
+            <i class="ion-trash-a"></i> Delete Article
+          </button>
+        </span>
+        <span *ngIf="!(isAuthor$ | async)">
+          <app-add-to-follow
+            [isFollowed]="article.author.following"
+            [profileSlug]="article.author.username"
+          ></app-add-to-follow>
+          <app-add-to-favorites
+            [isFavorited]="article.favorited"
+            [favoritesCount]="article.favoritesCount"
+            [articleSlug]="article.slug"
+            [isWideBtn]="true"
+          ></app-add-to-favorites>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="container page">
+    <app-loading *ngIf="isLoading$ | async"></app-loading>
+    <app-error-message *ngIf="error$ | async"></app-error-message>
+    <div class="row article-content" *ngIf="article">
+      <div class="col-md-12">
+        <div>
+          <p>{{ article.body }}</p>
+        </div>
+        <app-tag-list *ngIf="article.tagList?.length" [tags]="article.tagList"></app-tag-list>
+      </div>
+    </div>
+    <hr />
+    <!-- <div class="article-actions">
+      <div class="article-meta">
+        <a href="/profile/klogpok"><img src="https://api.realworld.io/images/smiley-cyrus.jpeg" /></a>
+        <div class="info">
+          <a class="author" href="/profile/klogpok"> klogpok </a><span class="date"> June 16, 2023 </span>
+        </div>
+        <span
+          ><a class="btn btn-sm btn-outline-secondary" href="/editor/tests1-187820"
+            ><i class="ion-edit"></i> Edit Article </a
+          ><button class="btn btn-sm btn-outline-danger"><i class="ion-trash-a"></i> Delete Article</button></span
+        ><span hidden="">
+        </span>
+      </div>
+    </div> -->
+  </div>
+</div>

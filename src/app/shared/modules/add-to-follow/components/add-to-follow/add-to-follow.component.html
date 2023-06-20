@@ -1,0 +1,8 @@
+<button
+  class="btn btn-sm action-btn"
+  [ngClass]="{ 'btn-secondary': isFollowed, 'btn-outline-secondary': !isFollowed }"
+  (click)="handleFollow()"
+>
+  <i class="ion-plus-round"></i>
+  <span>&nbsp;{{ isFollowed ? "Unfollow " : "Follow " }} {{ profileSlugProps }}</span>
+</button>

@@ -1,0 +1,11 @@
+<button
+  class="btn btn-sm"
+  [ngClass]="{ 'btn-primary': isFavorited, 'btn-outline-primary': !isFavorited }"
+  (click)="handleLike()"
+>
+  <i class="ion-heart"></i>
+  <span *ngIf="!isWideBtnProps"> {{ favoritesCount }}</span>
+  <span *ngIf="isWideBtnProps"
+    >&nbsp;{{ isFavorited ? "Unfavorite Article" : "Favorite Article" }} ({{ favoritesCount }})</span
+  >
+</button>
