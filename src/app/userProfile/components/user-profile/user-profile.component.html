@@ -7,9 +7,11 @@
           <h4>{{ userProfile.username }}</h4>
           <p>{{ userProfile.bio }}</p>
 
-          <button class="btn btn-sm action-btn btn-outline-secondary" *ngIf="!(isCurrentUserProfile$ | async)">
-            <i class="ion-plus-round"></i> &nbsp; Follow {{ userProfile.username }}
-          </button>
+          <app-add-to-follow
+            *ngIf="!(isCurrentUserProfile$ | async)"
+            [isFollowed]="userProfile.following"
+            [profileSlug]="userProfile.username"
+          ></app-add-to-follow>
 
           <a
             class="btn btn-sm btn-outline-secondary action-btn"
