@@ -23,7 +23,6 @@ export class UpdateCurrentUserEffect {
       switchMap(({ currentUserInput }) => {
         return this.authService.updateCurrentUser(currentUserInput).pipe(
           map((currentUser: ICurrentUser) => {
-            console.log(currentUser);
             return updateCurrentUserSuccessAction({ currentUser });
           }),
           catchError((errorResponse: HttpErrorResponse) =>

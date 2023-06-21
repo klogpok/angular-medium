@@ -54,7 +54,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
   initializeListeners() {
     this.articleSubscription = this.store.pipe(select(articleSelector)).subscribe((article: IArticle | null) => {
       this.article = article;
-      console.log(this.article);
     });
   }
 
