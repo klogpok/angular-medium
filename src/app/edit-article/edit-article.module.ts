@@ -12,8 +12,9 @@ import { ArticleService as SharedArticleService } from '@shared/services/article
 import { GetArticleEffect } from './store/effects/get-article.effect';
 import { LoadingModule } from '@shared/modules/loading/loading.module';
 import { BackendErrorMessagesModule } from '@shared/modules/backendErrorMessages/backendErrorMessages.module';
+import { authGuard } from '@auth/guards/auth.guard';
 
-const routes: Route[] = [{ path: 'articles/:slug/edit', component: EditArticleComponent }];
+const routes: Route[] = [{ path: 'articles/:slug/edit', component: EditArticleComponent, canMatch: [authGuard] }];
 
 @NgModule({
   declarations: [EditArticleComponent],

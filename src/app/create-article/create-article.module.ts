@@ -8,8 +8,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { CreateArticleEffect } from './store/effects/create-article.effect';
 import { StoreModule } from '@ngrx/store';
 import { createArticleReducer } from './store/reducers';
+import { authGuard } from '@auth/guards/auth.guard';
 
-const routes: Route[] = [{ path: 'articles/new', component: CreateArticleComponent }];
+const routes: Route[] = [{ path: 'articles/new', component: CreateArticleComponent, canMatch: [authGuard] }];
 
 @NgModule({
   declarations: [CreateArticleComponent],
