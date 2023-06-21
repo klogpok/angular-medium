@@ -1,7 +1,9 @@
+import { isLoggedInSelector } from '@auth/store/selectors';
 import { addToFavoritesAction } from '../../store/actions/addToFavorites.action';
 import { Component, OnInit, Input } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { IAppState } from '@shared/types/appState.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-to-favorites',
@@ -16,27 +18,39 @@ export class AddToFavoritesComponent implements OnInit {
 
   isFavorited: boolean;
   favoritesCount: number;
+  isLoggedIn: boolean;
+  isLoggedInSubscription: Subscription;
 
   constructor(private store: Store<IAppState>) {}
 
   ngOnInit(): void {
     this.initializeValues();
+    this.initializeListeners();
   }
 
-  initializeValues() {
+  ngOnDestroy(): void {
+    this.isLoggedInSubscription.unsubscribe();
+  }
+
+  initializeValues(): void {
     this.isFavorited = this.isFavoritedProps;
     this.favoritesCount = this.favoritesCountProps;
   }
 
-  handleLike() {
-    this.store.dispatch(addToFavoritesAction({ isFavorited: this.isFavorited, slug: this.articleSlugProps }));
+  initializeListeners(): void {
+    this.isLoggedInSubscription = this.store
+      .pipe(select(isLoggedInSelector))
+      .subscribe((isLoggedIn: boolean) => (this.isLoggedIn = isLoggedIn));
+  }
 
-    if (this.isFavorited) {
-      this.favoritesCount = this.favoritesCount - 1;
-    } else {
-      this.favoritesCount = this.favoritesCount + 1;
+  handleLike() {
+    if (!this.isLoggedIn) {
+      return;
     }
 
+    this.store.dispatch(addToFavoritesAction({ isFavorited: this.isFavorited, slug: this.articleSlugProps }));
+
+    this.favoritesCount += this.isFavorited ? -1 : 1;
     this.isFavorited = !this.isFavorited;
   }
 }
