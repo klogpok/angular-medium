@@ -40,7 +40,6 @@ import { UserProfileModule } from './userProfile/user-profile.module';
     CreateArticleModule,
     EditArticleModule,
     ArticleModule,
-    SettingsModule,
     UserProfileModule,
     StoreRouterConnectingModule.forRoot(),
   ],
